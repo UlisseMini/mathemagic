@@ -5,8 +5,10 @@ import Trainer from '../components/Trainer';
 
 <Layout title="Mathemagic">
 	<main>
-		<h1><span class="text-gradient">Mathemagic</span></h1>
-		<Trainer client:load />
+		<!-- <h1><span class="text-gradient">Mathemagic</span></h1> -->
+		<div class="center">
+			<Trainer client:load />
+		</div>
 	</main>
 </Layout>
 
@@ -15,7 +17,17 @@ import Trainer from '../components/Trainer';
 		margin: auto;
 		padding: 1.5rem;
 		max-width: 60ch;
+		display: flex; /* Makes .center less big, so margin centering works?? idk */
 	}
+
+	/* FIXME: This is awful garbage and doesn't work */
+	.center {
+		margin: auto auto;
+	}
+	.center h1 {
+		text-align: center;
+	}
+
 	h1 {
 		font-size: 3rem;
 		font-weight: 800;

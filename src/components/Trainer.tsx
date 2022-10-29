@@ -9,28 +9,52 @@ function randint(a: number, b: number) {
     return Math.floor(Math.random()*(b-a) + a)
 }
 
+function newProblem() {
+    return `${randint(10, 100)} + ${randint(10, 100)}`;
+}
+
 function ActiveTrainer({voice} : {voice: Voice}) {
-    // const problem = `${randint(10, 100)} + ${randint(10, 100)}`
-    // const answer = eval(problem)
-    const problem = '4 + 2'
+    const [answer, setAnswer] = useState('');
+    const [problem, setProblem] = useState('');
+
+    if (answer == eval(problem) || problem == '') {
+        setProblem(newProblem())
+        setAnswer('')
+    }
 
     // TODO: 2x speed setting for the madlads out there
-    let utterance = new SpeechSynthesisUtterance(problem);
-    utterance.voice = voice;
-    speechSynthesis.speak(utterance);
+    useEffect(() => {
+        let utterance = new SpeechSynthesisUtterance(problem);
+        utterance.voice = voice;
+        speechSynthesis.speak(utterance);
+    }, [problem])
     
+    // TODO: wait for return and measure success rate
     return <>
-        <input type="number" placeholder="Answer" />
+        <input
+            type="number"
+            placeholder="Answer"
+            onChange={(e) => setAnswer(e.target.value)}
+            value={answer}
+        />
     </>
 }
 
 function Trainer({voice} : {voice: Voice}) {
     // TODO: Use space to play/pause
-    const [started, setStarted] = useState(false);
+    const [paused, setPaused] = useState(true);
+    useEffect(() => {
+        document.body.onkeydown = (e) => {
+            console.log(e.key)
+            if (e.key == ' ') setPaused(!paused)
+        }
+    }, [paused])
+
+
     return <>
-        {started
-            ? <ActiveTrainer voice={voice}/>
-            : <button onClick={() => setStarted(true)}>Start</button>
+        {paused
+            ? <h1>Paused</h1>
+            : <ActiveTrainer voice={voice}/>
         }
     </>
 }
