@@ -1,12 +1,12 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import Trainer from '../components/Trainer.astro';
+import Trainer from '../components/Trainer';
 ---
 
 <Layout title="Mathemagic">
 	<main>
 		<h1><span class="text-gradient">Mathemagic</span></h1>
-		<Trainer />
+		<Trainer client:load />
 	</main>
 </Layout>
 
